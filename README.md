@@ -13,6 +13,5 @@ Use Composer to install by adding
 },
 
 ```php
-// The secret is only needed if you want to access authenticated methods
-$lastfm = new \Dandelionmood\LastFm\LastFm( $lastfm_api_key, $lastfm_api_secret );
+$sb = new \Jleagle\PHPSickBeard\PHPSickBeard($url, $apiKey);
 ```
