@@ -1,5 +1,5 @@
 {
-    "name": "Jleagle/php-sick-beard",
+    "name": "jleagle/php-sick-beard",
     "autoload": {
         "psr-0" : {
             "Jleagle\\PHPSickBeard" : "src"
