@@ -6,11 +6,13 @@ class PHPSickBeard
 
     private $url;
     private $apiKey;
+    private $arrayBase;
 
-    public function __construct($url, $apiKey)
+    public function __construct($url, $apiKey, $arrayBase=true)
     {
         $this->url = $url;
         $this->apiKey = $apiKey;
+        $this->arrayBase = $arrayBase;
     }
 
     public function __call($method, $parameters = array())
@@ -30,7 +32,7 @@ class PHPSickBeard
         $url = $this->url.'/api/'.$this->apiKey.'/?';
         $query = http_build_query($parameters);
         $json = file_get_contents($url.$query);
-        $array = json_decode($json, true);
+        $array = json_decode($json, $this->arrayBase);
 
         if (!$array){
             throw new \Exception('Invalid response');
