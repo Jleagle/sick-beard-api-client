@@ -23,7 +23,7 @@ Enable the bundle:
 ```php
 $sb = new \Jleagle\PHPSickBeard\PHPSickBeard(
     $url, // The URL to your Sick Beard installation
-    $apiKey, // Your BTN API key
+    $apiKey, // Your Sick Beard API key
     $returnArray // True for an array, false for an object
 );
 ```
@@ -35,7 +35,7 @@ $shows = $sb->shows();
 ```
 
 
-The functions in PHPSickBeard are the same as the functions in the Sick Beard API (except full stops are replaced with an underscore!).
+The methods in PHPSickBeard are the same as the methods in the Sick Beard API (except full stops are replaced with an underscore!).
 
 
 Any extra parameters can be added:
