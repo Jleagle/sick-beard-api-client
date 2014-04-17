@@ -45,7 +45,7 @@ class PHPSickBeard
             throw new \Exception($array['message']);
         }
 
-        return $array;
+        return $array['data'];
 
     }
 
