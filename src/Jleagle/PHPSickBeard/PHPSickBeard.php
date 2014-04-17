@@ -39,6 +39,9 @@ class PHPSickBeard
         }
 
         if ($array['result'] != 'success'){
+            if (empty($array['message'])){
+                $array['message'] = 'Error';
+            }
             throw new \Exception($array['message']);
         }
 
