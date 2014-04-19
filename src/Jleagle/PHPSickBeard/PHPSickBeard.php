@@ -17,16 +17,21 @@ class PHPSickBeard
 
     public function __call($method, $parameters = array())
     {
-        $parameters = $parameters[0];
+
         $method = str_replace('_', '.', $method);
-        $parameters['cmd'] = $method;
-        return $this->request($parameters);
+        $parameters[0]['cmd'] = $method;
+        return $this->request($parameters[0]);
+
     }
 
     private function request($parameters = array()){
 
         if (empty($parameters)){
             throw new \Exception("No parameters specified.");
+        }
+
+        if (empty($this->url) || empty($this->apiKey)){
+            throw new \Exception("No api key or URL set.");
         }
 
         $url = $this->url.'/api/'.$this->apiKey.'/?';
