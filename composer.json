@@ -1,6 +1,6 @@
 {
     "name": "jleagle/php-sick-beard",
-    "keywords": ["sick", "beard", "sickbeard"],
+    "keywords": ["sick", "beard", "sickbeard", "sick beard"],
     "description": "A wrapper class for the Sick Beard API.",
     "authors": [
         {
@@ -14,6 +14,9 @@
         "psr-0": {
             "Jleagle\\PHPSickBeard": "src"
         }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "~4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
