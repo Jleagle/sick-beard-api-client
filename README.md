@@ -1,7 +1,7 @@
 PHPSickBeard
 ============
 
-Here is a wrapper class for Sick Beard to retrieve anything from the [Sick Beard API](http://sickbeard.com/api/)
+A wrapper wrapper class for the [Sick Beard API](http://sickbeard.com/api/)
 
 ## Usage
 
