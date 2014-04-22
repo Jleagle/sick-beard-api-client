@@ -1,6 +1,7 @@
 {
     "name": "jleagle/php-sick-beard",
     "keywords": ["sick", "beard", "sickbeard"],
+    "description": "A wrapper class for the Sick Beard API.",
     "authors": [
         {
             "name": "James Eagle",
