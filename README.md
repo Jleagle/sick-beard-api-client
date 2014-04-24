@@ -19,7 +19,7 @@ Download the package
     $ php composer.phar update jleagle/php-sick-beard
 
 
-Enable the bundle:
+Enable the package:
 ```php
 $sb = new \Jleagle\PHPSickBeard\PHPSickBeard(
     $url, // The URL to your Sick Beard installation
