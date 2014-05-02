@@ -45,11 +45,9 @@ class PHPSickBeard
 
         // Guzzle
         $client = new Client();
+        $client->setDefaultOption('verify', false);
         $response = $client->get($url.$query);
-        
-        $response->getCurlOptions()->set(CURLOPT_SSL_VERIFYHOST, false);
-        $response->getCurlOptions()->set(CURLOPT_SSL_VERIFYPEER, false);
-        
+
         if ($response->getStatusCode() != 200)
         {
             throw new \Exception('Invalid response');
