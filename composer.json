@@ -1,5 +1,5 @@
 {
-    "name": "jleagle/php-sick-beard",
+    "name": "jleagle/sick-beard-api-client",
     "keywords": ["sick", "beard", "sickbeard", "sick beard"],
     "description": "A wrapper class for the Sick Beard API.",
     "authors": [
