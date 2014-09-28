@@ -1,9 +1,9 @@
 <?php
-namespace Jleagle\PHPSickBeard;
+namespace Jleagle;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as Guzzle;
 
-class PHPSickBeard
+class SickBeard
 {
 
     private $url;
@@ -42,7 +42,7 @@ class PHPSickBeard
         $query = http_build_query($parameters);
 
         // Guzzle
-        $client = new Client();
+        $client = new Guzzle();
         $client->setDefaultOption('verify', false);
 
         $response = $client->get($url . $query);
