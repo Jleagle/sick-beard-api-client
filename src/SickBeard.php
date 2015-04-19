@@ -748,7 +748,7 @@ class SickBeard
 
     if(strpos($contentType, 'json') !== false)
     {
-      $array = json_decode($body);
+      $array = json_decode($body, true);
 
       if(isset($array->result) && $array->result != 'success')
       {
