@@ -36,7 +36,7 @@ class SickBeard
    * @param int  $episode
    * @param bool $fullPath
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function episode($tvdbId, $season, $episode, $fullPath = false)
@@ -57,7 +57,7 @@ class SickBeard
    * @param int $season
    * @param int $episode
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function episode_search($tvdbId, $season, $episode)
@@ -80,7 +80,7 @@ class SickBeard
    * @param bool   $force
    *
    * @throws \Exception
-   * @return \stdClass
+   * @return array
    */
   public function episode_setstatus($tvdbId, $season, $status, $episode = null, $force = false)
   {
@@ -99,7 +99,7 @@ class SickBeard
   /**
    * @param int $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function exceptions($tvdbId = null)
@@ -118,7 +118,7 @@ class SickBeard
    * @param bool   $paused
    *
    * @throws \Exception
-   * @return \stdClass
+   * @return array
    */
   public function future($sort = FutureSortEnum::DATE, $type = [FutureTypeEnum::LATER, FutureTypeEnum::MISSED, FutureTypeEnum::SOON, FutureTypeEnum::TODAY], $paused = null)
   {
@@ -138,7 +138,7 @@ class SickBeard
    * @param int    $limit
    * @param string $type - Use HistoryTypeEnum enum
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function history($limit = 100, $type = null)
@@ -153,7 +153,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function history_clear()
@@ -166,7 +166,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function history_trim()
@@ -181,7 +181,7 @@ class SickBeard
   /**
    * @param string $minLevel - Use LogEnum enum
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function logs($minLevel = LogEnum::ERROR)
@@ -197,7 +197,7 @@ class SickBeard
   /**
    * @param $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show($tvdbId)
@@ -217,7 +217,7 @@ class SickBeard
    * @param string  $initial - todo - add enum
    * @param string  $archive - todo - add enum
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_addexisting($tvdbid, $location, $flattenFolders = null, $initial = null, $archive = null)
@@ -243,7 +243,7 @@ class SickBeard
    * @param string $initial - todo - add enum
    * @param string $archive - todo - add enum
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_addnew($tvdbId, $location = null, $lang = LanguageEnum::ENGLISH, $flattenFolders = null, $status = null, $initial = null, $archive = null)
@@ -265,7 +265,7 @@ class SickBeard
   /**
    * @param int $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_cache($tvdbId)
@@ -281,7 +281,7 @@ class SickBeard
   /**
    * @param int $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_delete($tvdbId)
@@ -329,7 +329,7 @@ class SickBeard
   /**
    * @param int $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_getquality($tvdbId)
@@ -346,7 +346,7 @@ class SickBeard
    * @param int  $tvdbId
    * @param bool $pause
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_pause($tvdbId, $pause = false)
@@ -363,7 +363,7 @@ class SickBeard
   /**
    * @param int $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_refresh($tvdbId)
@@ -380,7 +380,7 @@ class SickBeard
    * @param int    $tvdbId
    * @param string $sort - Use SortEnum enum
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_seasonlist($tvdbId, $sort = SortEnum::DESCENDING)
@@ -398,7 +398,7 @@ class SickBeard
    * @param int $tvdbId
    * @param int $season
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_seasons($tvdbId, $season = null)
@@ -417,7 +417,7 @@ class SickBeard
    * @param string $initial - todo - add enum
    * @param string $archive - todo - add enum
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_setquality($tvdbId, $initial = null, $archive = null)
@@ -435,7 +435,7 @@ class SickBeard
   /**
    * @param int $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_stats($tvdbId)
@@ -451,7 +451,7 @@ class SickBeard
   /**
    * @param int $tvdbId
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function show_update($tvdbId)
@@ -468,7 +468,7 @@ class SickBeard
    * @param string $sort - todo - add enum
    * @param bool   $paused
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function shows($sort = 'id', $paused = null)
@@ -483,7 +483,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function shows_stats()
@@ -496,7 +496,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb()
@@ -512,7 +512,7 @@ class SickBeard
    * @param string $location
    * @param bool   $default
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_addrootdir($location, $default = false)
@@ -527,7 +527,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_checkscheduler()
@@ -542,7 +542,7 @@ class SickBeard
   /**
    * @param string $location
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_deleterootdir($location)
@@ -556,7 +556,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_forcesearch()
@@ -569,7 +569,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_getdefaults()
@@ -582,7 +582,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_getmessages()
@@ -595,7 +595,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_getrootdirs()
@@ -610,7 +610,7 @@ class SickBeard
   /**
    * @param bool $pause
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_pausebacklog($pause = false)
@@ -624,7 +624,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_ping()
@@ -637,7 +637,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_restart()
@@ -654,7 +654,7 @@ class SickBeard
    * @param int    $tvdbId
    * @param string $lang - Use LanguageEnum enum
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_searchtvdb($name = null, $tvdbId = null, $lang = LanguageEnum::ENGLISH)
@@ -676,7 +676,7 @@ class SickBeard
    * @param string $initial
    * @param string $archive
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_setdefaults($futureShowPaused = null, $status = null, $flattenFolders = null, $initial = null, $archive = null)
@@ -694,7 +694,7 @@ class SickBeard
   }
 
   /**
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   public function sb_shutdown()
@@ -709,7 +709,7 @@ class SickBeard
   /**
    * @param array $params
    *
-   * @return \stdClass
+   * @return array
    * @throws \Exception
    */
   private function _request($params)
