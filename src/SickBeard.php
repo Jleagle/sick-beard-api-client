@@ -750,12 +750,12 @@ class SickBeard
     {
       $array = json_decode($body, true);
 
-      if(isset($array->result) && $array->result != 'success')
+      if(isset($array['result']) && $array['result'] != 'success')
       {
-        throw new \Exception($array->message);
+        throw new \Exception($array['message']);
       }
 
-      return $array->data;
+      return $array['data'];
     }
     else
     {
