@@ -10,7 +10,6 @@ use Jleagle\SickBeard\Enums\SortEnum;
 
 class SickBeard
 {
-
   private $url;
   private $apiKey;
 
@@ -21,12 +20,12 @@ class SickBeard
 
   public function __construct($url, $apiKey)
   {
-    if (!$url || !$apiKey)
+    if(!$url || !$apiKey)
     {
       throw new \Exception('URL & API key are required');
     }
 
-    $this->url    = $url;
+    $this->url = $url;
     $this->apiKey = $apiKey;
   }
 
@@ -37,7 +36,6 @@ class SickBeard
    * @param bool $fullPath
    *
    * @return array
-   * @throws \Exception
    */
   public function episode($tvdbId, $season, $episode, $fullPath = false)
   {
@@ -47,7 +45,7 @@ class SickBeard
         'tvdbid'    => $tvdbId,
         'season'    => $season,
         'episode'   => $episode,
-        'full_path' => $fullPath,
+        'full_path' => $fullPath ? 1 : 0,
       ]
     );
   }
@@ -58,9 +56,8 @@ class SickBeard
    * @param int $episode
    *
    * @return array
-   * @throws \Exception
    */
-  public function episode_search($tvdbId, $season, $episode)
+  public function episodeSearch($tvdbId, $season, $episode)
   {
     return $this->_request(
       [
@@ -79,10 +76,11 @@ class SickBeard
    * @param int    $episode
    * @param bool   $force
    *
-   * @throws \Exception
    * @return array
    */
-  public function episode_setstatus($tvdbId, $season, $status, $episode = null, $force = false)
+  public function episodeSetStatus(
+    $tvdbId, $season, $status, $episode = null, $force = false
+  )
   {
     return $this->_request(
       [
@@ -91,7 +89,7 @@ class SickBeard
         'season'  => $season,
         'status'  => $status,
         'episode' => $episode,
-        'force'   => $force,
+        'force'   => $force ? 1 : 0,
       ]
     );
   }
@@ -100,7 +98,6 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
   public function exceptions($tvdbId = null)
   {
@@ -117,11 +114,21 @@ class SickBeard
    * @param array  $type - An array of FutureTypeEnum values
    * @param bool   $paused
    *
-   * @throws \Exception
    * @return array
    */
-  public function future($sort = FutureSortEnum::DATE, $type = [FutureTypeEnum::LATER, FutureTypeEnum::MISSED, FutureTypeEnum::SOON, FutureTypeEnum::TODAY], $paused = null)
+  public function future(
+    $sort = FutureSortEnum::DATE, array $type = null, $paused = null
+  )
   {
+    if(!$type)
+    {
+      $type = [
+        FutureTypeEnum::LATER,
+        FutureTypeEnum::MISSED,
+        FutureTypeEnum::SOON,
+        FutureTypeEnum::TODAY
+      ];
+    }
     $type = implode('|', $type);
 
     return $this->_request(
@@ -129,7 +136,7 @@ class SickBeard
         'cmd'   => 'future',
         'sort'  => $sort,
         'type'  => $type,
-        'pased' => $paused,
+        'pased' => $paused ? 1 : 0,
       ]
     );
   }
@@ -139,7 +146,6 @@ class SickBeard
    * @param string $type - Use HistoryTypeEnum enum
    *
    * @return array
-   * @throws \Exception
    */
   public function history($limit = 100, $type = null)
   {
@@ -154,9 +160,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function history_clear()
+  public function historyClear()
   {
     return $this->_request(
       [
@@ -167,9 +172,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function history_trim()
+  public function historyTrim()
   {
     return $this->_request(
       [
@@ -182,7 +186,6 @@ class SickBeard
    * @param string $minLevel - Use LogEnum enum
    *
    * @return array
-   * @throws \Exception
    */
   public function logs($minLevel = LogEnum::ERROR)
   {
@@ -198,7 +201,6 @@ class SickBeard
    * @param $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
   public function show($tvdbId)
   {
@@ -211,23 +213,24 @@ class SickBeard
   }
 
   /**
-   * @param int     $tvdbid
-   * @param string  $location
-   * @param bool    $flattenFolders
-   * @param string  $initial - todo - add enum
-   * @param string  $archive - todo - add enum
+   * @param int    $tvdbid
+   * @param string $location
+   * @param bool   $flattenFolders
+   * @param string $initial - todo - add enum
+   * @param string $archive - todo - add enum
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_addexisting($tvdbid, $location, $flattenFolders = null, $initial = null, $archive = null)
+  public function showAddExisting(
+    $tvdbid, $location, $flattenFolders = null, $initial = null, $archive = null
+  )
   {
     return $this->_request(
       [
         'cmd'             => 'show.addexisting',
         'tvdbid'          => $tvdbid,
         'location'        => $location,
-        'flatten_folders' => $flattenFolders,
+        'flatten_folders' => $flattenFolders ? 1 : 0,
         'initial'         => $initial,
         'archive'         => $archive,
       ]
@@ -244,9 +247,11 @@ class SickBeard
    * @param string $archive - todo - add enum
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_addnew($tvdbId, $location = null, $lang = LanguageEnum::ENGLISH, $flattenFolders = null, $status = null, $initial = null, $archive = null)
+  public function showAddNew(
+    $tvdbId, $location = null, $lang = LanguageEnum::ENGLISH,
+    $flattenFolders = null, $status = null, $initial = null, $archive = null
+  )
   {
     return $this->_request(
       [
@@ -254,7 +259,7 @@ class SickBeard
         'tvdbid'          => $tvdbId,
         'location'        => $location,
         'lang'            => $lang,
-        'flatten_folders' => $flattenFolders,
+        'flatten_folders' => $flattenFolders ? 1 : 0,
         'status'          => $status,
         'initial'         => $initial,
         'archive'         => $archive,
@@ -266,9 +271,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_cache($tvdbId)
+  public function showCache($tvdbId)
   {
     return $this->_request(
       [
@@ -282,9 +286,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_delete($tvdbId)
+  public function showDelete($tvdbId)
   {
     return $this->_request(
       [
@@ -298,9 +301,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return string
-   * @throws \Exception
    */
-  public function show_getbanner($tvdbId)
+  public function showGetBanner($tvdbId)
   {
     return $this->_request(
       [
@@ -314,9 +316,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return string
-   * @throws \Exception
    */
-  public function show_getposter($tvdbId)
+  public function showGetPoster($tvdbId)
   {
     return $this->_request(
       [
@@ -330,9 +331,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_getquality($tvdbId)
+  public function showGetQuality($tvdbId)
   {
     return $this->_request(
       [
@@ -347,15 +347,14 @@ class SickBeard
    * @param bool $pause
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_pause($tvdbId, $pause = false)
+  public function showPause($tvdbId, $pause = false)
   {
     return $this->_request(
       [
         'cmd'    => 'show.pause',
         'tvdbid' => $tvdbId,
-        'pause'  => $pause,
+        'pause'  => $pause ? 1 : 0,
       ]
     );
   }
@@ -364,9 +363,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_refresh($tvdbId)
+  public function showRefresh($tvdbId)
   {
     return $this->_request(
       [
@@ -381,9 +379,8 @@ class SickBeard
    * @param string $sort - Use SortEnum enum
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_seasonlist($tvdbId, $sort = SortEnum::DESCENDING)
+  public function showSeasonList($tvdbId, $sort = SortEnum::DESCENDING)
   {
     return $this->_request(
       [
@@ -399,9 +396,8 @@ class SickBeard
    * @param int $season
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_seasons($tvdbId, $season = null)
+  public function showSeasons($tvdbId, $season = null)
   {
     return $this->_request(
       [
@@ -418,9 +414,8 @@ class SickBeard
    * @param string $archive - todo - add enum
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_setquality($tvdbId, $initial = null, $archive = null)
+  public function showSetQuality($tvdbId, $initial = null, $archive = null)
   {
     return $this->_request(
       [
@@ -436,9 +431,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_stats($tvdbId)
+  public function showStats($tvdbId)
   {
     return $this->_request(
       [
@@ -452,9 +446,8 @@ class SickBeard
    * @param int $tvdbId
    *
    * @return array
-   * @throws \Exception
    */
-  public function show_update($tvdbId)
+  public function showUpdate($tvdbId)
   {
     return $this->_request(
       [
@@ -469,7 +462,6 @@ class SickBeard
    * @param bool   $paused
    *
    * @return array
-   * @throws \Exception
    */
   public function shows($sort = 'id', $paused = null)
   {
@@ -477,16 +469,15 @@ class SickBeard
       [
         'cmd'    => 'shows',
         'sort'   => $sort,
-        'paused' => $paused
+        'paused' => $paused ? 1 : 0
       ]
     );
   }
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function shows_stats()
+  public function showsStats()
   {
     return $this->_request(
       [
@@ -497,9 +488,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb()
+  public function sickBeard()
   {
     return $this->_request(
       [
@@ -513,24 +503,22 @@ class SickBeard
    * @param bool   $default
    *
    * @return array
-   * @throws \Exception
    */
-  public function sb_addrootdir($location, $default = false)
+  public function sickBeardAddRootDirectory($location, $default = false)
   {
     return $this->_request(
       [
         'cmd'      => 'sb.addrootdir',
         'location' => $location,
-        'default'  => $default,
+        'default'  => $default ? 1 : 0,
       ]
     );
   }
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_checkscheduler()
+  public function sickBeardCheckScheduler()
   {
     return $this->_request(
       [
@@ -543,9 +531,8 @@ class SickBeard
    * @param string $location
    *
    * @return array
-   * @throws \Exception
    */
-  public function sb_deleterootdir($location)
+  public function sickBeardDeleteRootDirectory($location)
   {
     return $this->_request(
       [
@@ -557,9 +544,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_forcesearch()
+  public function sickBeardForceSearch()
   {
     return $this->_request(
       [
@@ -570,9 +556,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_getdefaults()
+  public function sickBeardGetDefaults()
   {
     return $this->_request(
       [
@@ -583,9 +568,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_getmessages()
+  public function sickBeardGetMessages()
   {
     return $this->_request(
       [
@@ -596,9 +580,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_getrootdirs()
+  public function sickBeardGetRootDirectories()
   {
     return $this->_request(
       [
@@ -611,23 +594,21 @@ class SickBeard
    * @param bool $pause
    *
    * @return array
-   * @throws \Exception
    */
-  public function sb_pausebacklog($pause = false)
+  public function sickBeardPauseBacklog($pause = false)
   {
     return $this->_request(
       [
         'cmd'   => 'sb.pausebacklog',
-        'pause' => $pause
+        'pause' => $pause ? 1 : 0
       ]
     );
   }
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_ping()
+  public function sickBeardPing()
   {
     return $this->_request(
       [
@@ -638,9 +619,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_restart()
+  public function sickBeardRestart()
   {
     return $this->_request(
       [
@@ -655,9 +635,10 @@ class SickBeard
    * @param string $lang - Use LanguageEnum enum
    *
    * @return array
-   * @throws \Exception
    */
-  public function sb_searchtvdb($name = null, $tvdbId = null, $lang = LanguageEnum::ENGLISH)
+  public function sickBeardSearchTvDb(
+    $name = null, $tvdbId = null, $lang = LanguageEnum::ENGLISH
+  )
   {
     return $this->_request(
       [
@@ -677,16 +658,18 @@ class SickBeard
    * @param string $archive
    *
    * @return array
-   * @throws \Exception
    */
-  public function sb_setdefaults($futureShowPaused = null, $status = null, $flattenFolders = null, $initial = null, $archive = null)
+  public function sickBeardSetDefaults(
+    $futureShowPaused = null, $status = null, $flattenFolders = null,
+    $initial = null, $archive = null
+  )
   {
     return $this->_request(
       [
         'cmd'                => 'sb.setdefaults',
-        'future_show_paused' => $futureShowPaused,
+        'future_show_paused' => $futureShowPaused ? 1 : 0,
         'status'             => $status,
-        'flatten_folders'    => $flattenFolders,
+        'flatten_folders'    => $flattenFolders ? 1 : 0,
         'initial'            => $initial,
         'archive'            => $archive,
       ]
@@ -695,9 +678,8 @@ class SickBeard
 
   /**
    * @return array
-   * @throws \Exception
    */
-  public function sb_shutdown()
+  public function sickBeardShutdown()
   {
     return $this->_request(
       [
@@ -710,29 +692,30 @@ class SickBeard
    * @param array $params
    *
    * @return array
+   *
    * @throws \Exception
    */
   private function _request($params)
   {
 
-    if ($this->debug)
+    if($this->debug)
     {
       $params['debug'] = 1;
     }
-    if ($this->profile)
+    if($this->profile)
     {
       $params['profile'] = 1;
     }
-    if ($this->help)
+    if($this->help)
     {
       $params['help'] = 1;
     }
-    if ($this->callback)
+    if($this->callback)
     {
       $params['callback'] = $this->callback;
     }
 
-    $url   = $this->url . '/api/' . $this->apiKey . '/?';
+    $url = $this->url . '/api/' . $this->apiKey . '/?';
     $query = http_build_query($params);
 
     $client = new Guzzle();
@@ -743,7 +726,7 @@ class SickBeard
       throw new \Exception('Invalid response');
     }
 
-    $body        = $response->getBody();
+    $body = $response->getBody();
     $contentType = $response->getHeader('content-type');
 
     if(strpos($contentType, 'json') !== false)
@@ -759,41 +742,41 @@ class SickBeard
     }
     else
     {
-      header('Content-Type: '.$contentType);
+      header('Content-Type: ' . $contentType);
       return $body;
     }
   }
 
   /**
-   * @param int $debug
+   * @param bool $debug
    *
    * @return $this
    */
-  public function setDebug($debug)
+  public function setDebug($debug = true)
   {
-    $this->debug = $debug;
+    $this->debug = $debug ? 1 : 0;
     return $this;
   }
 
   /**
-   * @param int $help
+   * @param bool $help
    *
    * @return $this
    */
-  public function setHelp($help)
+  public function setHelp($help = true)
   {
-    $this->help = $help;
+    $this->help = $help ? 1 : 0;
     return $this;
   }
 
   /**
-   * @param int $profile
+   * @param bool $profile
    *
    * @return $this
    */
-  public function setProfile($profile)
+  public function setProfile($profile = true)
   {
-    $this->profile = $profile;
+    $this->profile = $profile ? 1 : 0;
     return $this;
   }
 
@@ -807,5 +790,4 @@ class SickBeard
     $this->callback = $callback;
     return $this;
   }
-
 }
