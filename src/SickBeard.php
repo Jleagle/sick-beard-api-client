@@ -3,10 +3,10 @@ namespace Jleagle\SickBeard;
 
 use GuzzleHttp\Client as Guzzle;
 use Jleagle\SickBeard\Enums\FutureSortEnum;
-use Jleagle\SickBeard\Enums\FutureTypeEnum;
 use Jleagle\SickBeard\Enums\LanguageEnum;
 use Jleagle\SickBeard\Enums\LogEnum;
-use Jleagle\SickBeard\Enums\SortEnum;
+use Jleagle\SickBeard\Enums\ShowsSortEnum;
+use Jleagle\SickBeard\Enums\SortOrderEnum;
 
 class SickBeard
 {
@@ -72,7 +72,7 @@ class SickBeard
   /**
    * @param int    $tvdbId
    * @param int    $season
-   * @param string $status - Use StatusEnum enum
+   * @param string $status - StatusEnum
    * @param int    $episode
    * @param bool   $force
    *
@@ -110,8 +110,8 @@ class SickBeard
   }
 
   /**
-   * @param string $sort - Use FutureSortEnum enum
-   * @param array  $type - An array of FutureTypeEnum values
+   * @param string $sort - FutureSortEnum
+   * @param array  $type - FutureTypeEnum[]
    * @param bool   $paused
    *
    * @return array
@@ -120,16 +120,10 @@ class SickBeard
     $sort = FutureSortEnum::DATE, array $type = null, $paused = null
   )
   {
-    if(!$type)
+    if($type)
     {
-      $type = [
-        FutureTypeEnum::LATER,
-        FutureTypeEnum::MISSED,
-        FutureTypeEnum::SOON,
-        FutureTypeEnum::TODAY
-      ];
+      $type = implode('|', $type);
     }
-    $type = implode('|', $type);
 
     return $this->_request(
       [
@@ -143,7 +137,7 @@ class SickBeard
 
   /**
    * @param int    $limit
-   * @param string $type - Use HistoryTypeEnum enum
+   * @param string $type - HistoryTypeEnum
    *
    * @return array
    */
@@ -183,7 +177,7 @@ class SickBeard
   }
 
   /**
-   * @param string $minLevel - Use LogEnum enum
+   * @param string $minLevel - LogEnum
    *
    * @return array
    */
@@ -216,15 +210,26 @@ class SickBeard
    * @param int    $tvdbid
    * @param string $location
    * @param bool   $flattenFolders
-   * @param string $initial - todo - add enum
-   * @param string $archive - todo - add enum
+   * @param array  $initial - InitialEnum[]
+   * @param array  $archive - ArchiveEnum[]
    *
    * @return array
    */
   public function showAddExisting(
-    $tvdbid, $location, $flattenFolders = null, $initial = null, $archive = null
+    $tvdbid, $location, $flattenFolders = null, array $initial = null,
+    array $archive = null
   )
   {
+    if($initial)
+    {
+      $initial = implode('|', $initial);
+    }
+
+    if($archive)
+    {
+      $archive = implode('|', $archive);
+    }
+
     return $this->_request(
       [
         'cmd'             => 'show.addexisting',
@@ -242,17 +247,28 @@ class SickBeard
    * @param string $location
    * @param string $lang
    * @param bool   $flattenFolders
-   * @param string $status  - Use ShowStatusEnum enum
-   * @param string $initial - todo - add enum
-   * @param string $archive - todo - add enum
+   * @param string $status  - ShowStatusEnum
+   * @param array  $initial - InitialEnum[]
+   * @param array  $archive - ArchiveEnum[]
    *
    * @return array
    */
   public function showAddNew(
     $tvdbId, $location = null, $lang = LanguageEnum::ENGLISH,
-    $flattenFolders = null, $status = null, $initial = null, $archive = null
+    $flattenFolders = null, $status = null, array $initial = null,
+    array $archive = null
   )
   {
+    if($initial)
+    {
+      $initial = implode('|', $initial);
+    }
+
+    if($archive)
+    {
+      $archive = implode('|', $archive);
+    }
+
     return $this->_request(
       [
         'cmd'             => 'show.addnew',
@@ -380,7 +396,7 @@ class SickBeard
    *
    * @return array
    */
-  public function showSeasonList($tvdbId, $sort = SortEnum::DESCENDING)
+  public function showSeasonList($tvdbId, $sort = SortOrderEnum::DESCENDING)
   {
     return $this->_request(
       [
@@ -409,14 +425,26 @@ class SickBeard
   }
 
   /**
-   * @param int    $tvdbId
-   * @param string $initial - todo - add enum
-   * @param string $archive - todo - add enum
+   * @param int   $tvdbId
+   * @param array $initial - InitialEnum[]
+   * @param array $archive - ArchiveEnum[]
    *
    * @return array
    */
-  public function showSetQuality($tvdbId, $initial = null, $archive = null)
+  public function showSetQuality(
+    $tvdbId, array $initial = null, array $archive = null
+  )
   {
+    if($initial)
+    {
+      $initial = implode('|', $initial);
+    }
+
+    if($archive)
+    {
+      $archive = implode('|', $archive);
+    }
+
     return $this->_request(
       [
         'cmd'     => 'show.setquality',
@@ -458,12 +486,12 @@ class SickBeard
   }
 
   /**
-   * @param string $sort - todo - add enum
+   * @param string $sort - SortSortEnum
    * @param bool   $paused
    *
    * @return array
    */
-  public function shows($sort = 'id', $paused = null)
+  public function shows($sort = ShowsSortEnum::ID, $paused = null)
   {
     return $this->_request(
       [
@@ -632,7 +660,7 @@ class SickBeard
   /**
    * @param string $name
    * @param int    $tvdbId
-   * @param string $lang - Use LanguageEnum enum
+   * @param string $lang - LanguageEnum
    *
    * @return array
    */
@@ -652,18 +680,28 @@ class SickBeard
 
   /**
    * @param bool   $futureShowPaused
-   * @param string $status - Use ShowStatusEnum enum
+   * @param string $status  - ShowStatusEnum
    * @param bool   $flattenFolders
-   * @param string $initial
-   * @param string $archive
+   * @param array  $initial - InitialEnum[]
+   * @param array  $archive - ArchiveEnum[]
    *
    * @return array
    */
   public function sickBeardSetDefaults(
     $futureShowPaused = null, $status = null, $flattenFolders = null,
-    $initial = null, $archive = null
+    array $initial = null, array $archive = null
   )
   {
+    if($initial)
+    {
+      $initial = implode('|', $initial);
+    }
+
+    if($archive)
+    {
+      $archive = implode('|', $archive);
+    }
+
     return $this->_request(
       [
         'cmd'                => 'sb.setdefaults',

@@ -1,7 +1,7 @@
 <?php
 namespace Jleagle\SickBeard\Enums;
 
-class SortEnum
+class SortOrderEnum
 {
   const ASCENDING = 'asc';
   const DESCENDING = 'desc';
