@@ -7,26 +7,22 @@ use Jleagle\SickBeard\Enums\LanguageEnum;
 use Jleagle\SickBeard\Enums\LogEnum;
 use Jleagle\SickBeard\Enums\ShowsSortEnum;
 use Jleagle\SickBeard\Enums\SortOrderEnum;
+use Jleagle\SickBeard\Exceptions\SickBeardException;
 
 class SickBeard
 {
-  private $url;
-  private $apiKey;
+  protected $_url;
+  protected $_apiKey;
 
-  private $debug = 0;
-  private $profile = 0;
-  private $help = 0;
-  private $callback = '';
+  protected $_debug = 0;
+  protected $_profile = 0;
+  protected $_help = 0;
+  protected $_callback = '';
 
   public function __construct($url, $apiKey)
   {
-    if(!$url || !$apiKey)
-    {
-      throw new \Exception('URL & API key are required');
-    }
-
-    $this->url = $url;
-    $this->apiKey = $apiKey;
+    $this->_url = $url;
+    $this->_apiKey = $apiKey;
   }
 
   /**
@@ -731,29 +727,29 @@ class SickBeard
    *
    * @return array
    *
-   * @throws \Exception
+   * @throws SickBeardException
    */
-  private function _request($params)
+  protected function _request($params)
   {
 
-    if($this->debug)
+    if($this->_debug)
     {
       $params['debug'] = 1;
     }
-    if($this->profile)
+    if($this->_profile)
     {
       $params['profile'] = 1;
     }
-    if($this->help)
+    if($this->_help)
     {
       $params['help'] = 1;
     }
-    if($this->callback)
+    if($this->_callback)
     {
-      $params['callback'] = $this->callback;
+      $params['callback'] = $this->_callback;
     }
 
-    $url = $this->url . '/api/' . $this->apiKey . '/?';
+    $url = $this->_url . '/api/' . $this->_apiKey . '/?';
     $query = http_build_query($params);
 
     $client = new Guzzle();
@@ -761,7 +757,7 @@ class SickBeard
 
     if($response->getStatusCode() != 200)
     {
-      throw new \Exception('Invalid response');
+      throw new SickBeardException('Invalid response');
     }
 
     $body = $response->getBody();
@@ -773,7 +769,7 @@ class SickBeard
 
       if(isset($array['result']) && $array['result'] != 'success')
       {
-        throw new \Exception($array['message']);
+        throw new SickBeardException($array['message']);
       }
 
       return $array['data'];
@@ -792,7 +788,7 @@ class SickBeard
    */
   public function setDebug($debug = true)
   {
-    $this->debug = $debug ? 1 : 0;
+    $this->_debug = $debug ? 1 : 0;
     return $this;
   }
 
@@ -803,7 +799,7 @@ class SickBeard
    */
   public function setHelp($help = true)
   {
-    $this->help = $help ? 1 : 0;
+    $this->_help = $help ? 1 : 0;
     return $this;
   }
 
@@ -814,7 +810,7 @@ class SickBeard
    */
   public function setProfile($profile = true)
   {
-    $this->profile = $profile ? 1 : 0;
+    $this->_profile = $profile ? 1 : 0;
     return $this;
   }
 
@@ -825,7 +821,7 @@ class SickBeard
    */
   public function setCallback($callback)
   {
-    $this->callback = $callback;
+    $this->_callback = $callback;
     return $this;
   }
 }
