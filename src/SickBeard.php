@@ -763,7 +763,7 @@ class SickBeard
     $body = $response->getBody();
     $contentType = $response->getHeader('content-type');
 
-    if(strpos($contentType, 'json') !== false)
+    if(strpos($contentType[0], 'json') !== false)
     {
       $array = json_decode($body, true);
 
@@ -776,7 +776,7 @@ class SickBeard
     }
     else
     {
-      header('Content-Type: ' . $contentType);
+      header('Content-Type: ' . $contentType[0]);
       return $body;
     }
   }

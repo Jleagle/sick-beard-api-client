@@ -1,27 +1,27 @@
 {
-  "name":        "jleagle/sick-beard-api-client",
-  "keywords":    [
+  "name": "jleagle/sick-beard-api-client",
+  "keywords": [
     "sick beard",
     "sickbeard",
     "api",
     "client"
   ],
   "description": "A wrapper class for the Sick Beard API.",
-  "authors":     [
+  "authors": [
     {
-      "name":     "James Eagle",
-      "email":    "jimeagle@gmail.com",
+      "name": "James Eagle",
+      "email": "jimeagle@gmail.com",
       "homepage": "http://jimeagle.com",
-      "role":     "Developer"
+      "role": "Developer"
     }
   ],
-  "autoload":    {
+  "autoload": {
     "psr-4": {
       "Jleagle\\SickBeard\\": "src"
     }
   },
-  "require":     {
-    "php":               ">=5.4",
-    "guzzlehttp/guzzle": "~5.2"
+  "require": {
+    "php": ">=5.4",
+    "guzzlehttp/guzzle": "~6.0"
   }
 }
