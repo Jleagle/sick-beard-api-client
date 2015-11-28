@@ -1,13 +1,14 @@
 <?php
 namespace Jleagle\SickBeard;
 
-use GuzzleHttp\Client as Guzzle;
+use Jleagle\CurlWrapper\Curl;
 use Jleagle\SickBeard\Enums\FutureSortEnum;
 use Jleagle\SickBeard\Enums\LanguageEnum;
 use Jleagle\SickBeard\Enums\LogEnum;
 use Jleagle\SickBeard\Enums\ShowsSortEnum;
 use Jleagle\SickBeard\Enums\SortOrderEnum;
 use Jleagle\SickBeard\Exceptions\SickBeardException;
+use Packaged\Helpers\Strings;
 
 class SickBeard
 {
@@ -749,23 +750,20 @@ class SickBeard
       $params['callback'] = $this->_callback;
     }
 
-    $url = $this->_url . '/api/' . $this->_apiKey . '/?';
-    $query = http_build_query($params);
+    $url = $this->_url . '/api/' . $this->_apiKey;
 
-    $client = new Guzzle();
-    $response = $client->get($url . $query);
+    $response = Curl::get($url, $params)->run();
 
-    if($response->getStatusCode() != 200)
+    if($response->getHttpCode() != 200)
     {
       throw new SickBeardException('Invalid response');
     }
 
-    $body = $response->getBody();
-    $contentType = $response->getHeader('content-type');
+    $contentType = $response->getContentType();
 
-    if(strpos($contentType[0], 'json') !== false)
+    if(Strings::contains($contentType, 'json', false))
     {
-      $array = json_decode($body, true);
+      $array = $response->getJson();
 
       if(isset($array['result']) && $array['result'] != 'success')
       {
@@ -776,8 +774,8 @@ class SickBeard
     }
     else
     {
-      header('Content-Type: ' . $contentType[0]);
-      return $body;
+      header('Content-Type: ' . $contentType);
+      return $response->getOutput();
     }
   }
 

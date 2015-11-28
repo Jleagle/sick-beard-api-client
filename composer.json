@@ -21,7 +21,14 @@
     }
   },
   "require": {
-    "php": ">=5.4",
-    "guzzlehttp/guzzle": "~6.0"
-  }
+    "php": ">=5.4.0",
+    "jleagle/curl-wrapper": "~0.1",
+    "packaged/helpers": "~1.1"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:jleagle/curl-wrapper.git"
+    }
+  ]
 }
